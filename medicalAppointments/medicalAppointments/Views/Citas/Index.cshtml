@@ -1,0 +1,92 @@
+﻿@model IEnumerable<medicalAppointments.Models.Citas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info">
+        <strong>Info ! </strong> @TempData["InfoMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+else if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success ! </strong> @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Error ! </strong> @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Create New Appointment", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.idPaciente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idDoctor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.diagnostico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.comentarios)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idPaciente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idDoctor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.diagnostico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.comentarios)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.idCita }, new { @class = "btn btn-primary" }) &nbsp; &nbsp; &nbsp;
+                @Html.ActionLink("Details", "Details", new { id = item.idCita }, new { @class = "btn btn-success" }) &nbsp; &nbsp; &nbsp;
+                @Html.ActionLink("Delete", "Delete", new { id = item.idCita }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>
