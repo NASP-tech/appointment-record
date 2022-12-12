@@ -139,5 +139,26 @@ namespace medicalAppointments.DAL
                 return false;
             }
         }
+
+        //Delete Pacient
+        public string DeletePaciente(int idPaciente)
+        {
+            string result = "";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                SqlCommand command = new SqlCommand("sp_deletepaciente", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@idPaciente", idPaciente);
+                command.Parameters.Add("@OutputMessage", SqlDbType.VarChar, 50).Direction = ParameterDirection.Output;
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                result = command.Parameters["@OutputMessage"].Value.ToString();
+                connection.Close();
+            }
+
+            return result;
+        }
     }
 }
