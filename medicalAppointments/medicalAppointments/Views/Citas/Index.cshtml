@@ -15,6 +15,24 @@
         </button>
     </div>
 }
+else if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success ! </strong> @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Error ! </strong> @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+}
 
 <p>
     @Html.ActionLink("Create New Appointment", "Create", null, new { @class = "btn btn-primary" })
@@ -66,7 +84,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.idCita }, new { @class = "btn btn-primary" }) &nbsp; &nbsp; &nbsp;
                 @Html.ActionLink("Details", "Details", new { id = item.idCita }, new { @class = "btn btn-success" }) &nbsp; &nbsp; &nbsp;
-                @Html.ActionLink("Delete", "Delete", new { id = item.idCita }, new { @class = "btn btn-danger" }) 
+                @Html.ActionLink("Delete", "Delete", new { id = item.idCita }, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }

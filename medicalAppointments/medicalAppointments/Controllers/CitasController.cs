@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using medicalAppointments.DAL;
+using medicalAppointments.Models;
 
 namespace medicalAppointments.Controllers
 {
@@ -38,17 +39,33 @@ namespace medicalAppointments.Controllers
 
         // POST: Citas/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Citas citas)
         {
+            bool IsInserted = false;
+
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    IsInserted = _citasDal.InsertCitas(citas);
 
+                    if (IsInserted)
+                    {
+                        TempData["SuccessMessage"] = "Appointment details saved successfully...!";
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Appointmet is already registered/Unable to save the pacient details.";
+                    }
+                }
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+
+                TempData["ErrorMessage"] = ex.Message;
                 return View();
+
             }
         }
 

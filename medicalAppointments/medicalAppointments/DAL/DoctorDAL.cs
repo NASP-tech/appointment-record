@@ -45,5 +45,35 @@ namespace medicalAppointments.DAL
             }
             return doctoresList;
         }
+
+        //Insert Doctores
+
+        public bool InsertDoctor(Doctores doctores)
+        {
+            int id = 0;
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                SqlCommand command = new SqlCommand("sp_InsertDoctores", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Nombre", doctores.Nombre);
+                command.Parameters.AddWithValue("@Direccion", doctores.Direccion);
+                command.Parameters.AddWithValue("@Telefono", doctores.Telefono);
+                command.Parameters.AddWithValue("@EMail", doctores.EMail);
+                command.Parameters.AddWithValue("@Especialidad", doctores.Especialidad);
+
+                connection.Open();
+                id = command.ExecuteNonQuery();
+                connection.Close();
+            }
+
+            if (id > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

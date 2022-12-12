@@ -46,5 +46,37 @@ namespace medicalAppointments.DAL
             }
             return citasList;
         }
+
+        //Insert Citas
+
+        public bool InsertCitas(Citas citas)
+        {
+            int id = 0;
+            using (SqlConnection connection = new SqlConnection(conString))
+            {
+                SqlCommand command = new SqlCommand("sp_InsertCitas", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@idPaciente", citas.idPaciente);
+                command.Parameters.AddWithValue("@idDoctor", citas.idDoctor);
+                command.Parameters.AddWithValue("@dia", citas.dia);
+                command.Parameters.AddWithValue("@hora", citas.hora);
+                command.Parameters.AddWithValue("@diagnostico", citas.diagnostico);
+                command.Parameters.AddWithValue("@comentarios", citas.comentarios);
+
+                connection.Open();
+                id = command.ExecuteNonQuery();
+                connection.Close();
+            }
+
+            if (id > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }
