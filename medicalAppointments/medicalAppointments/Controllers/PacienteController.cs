@@ -28,7 +28,25 @@ namespace medicalAppointments.Controllers
         // GET: Paciente/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                var paciente = _pacienteDAL.GetPacientesByID(id).FirstOrDefault();
+
+                if (paciente == null)
+                {
+                    TempData["infoMessage"] = "Product not available with id" + id.ToString();
+                    return RedirectToAction("Index");
+                }
+
+                return View(paciente);
+            }
+            catch (Exception ex)
+            {
+
+                TempData["ErrorMessage"] = ex.Message;
+                return View();
+
+            }
         }
 
         // GET: Paciente/Create
@@ -116,21 +134,47 @@ namespace medicalAppointments.Controllers
         // GET: Paciente/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var paciente = _pacienteDAL.GetPacientesByID(id).FirstOrDefault();
+
+                if (paciente == null)
+                {
+                    TempData["InfoMessage"] = "Product not available with id" + id.ToString();
+                    return RedirectToAction("Index");
+                }
+
+                return View(paciente);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return View();
+            }
         }
 
         // POST: Paciente/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmation(int id)
         {
             try
             {
-                // TODO: Add delete logic here
+                string result = _pacienteDAL.DeletePaciente(id);
+
+                if (result.Contains("deleted"))
+                {
+                    TempData["SuccessMessage"] = result;
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = result;
+                }
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["ErrorMessage"] = ex.Message;
                 return View();
             }
         }
